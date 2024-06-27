@@ -10,7 +10,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-async function callGemini(promptContent, systemContent, previousChat) {
+async function callGPT(promptContent, systemContent, previousChat) {
   try {
     const messages = [];
 
@@ -46,4 +46,4 @@ async function callGemini(promptContent, systemContent, previousChat) {
   }
 }
 
-module.exports = { callGemini };
+module.exports = { callGPT };
