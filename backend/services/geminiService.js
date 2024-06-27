@@ -25,6 +25,7 @@ const functionDeclarations = [
   },
 ];
 
+
 const functionResponseParts = [
   {
     functionResponse: {
@@ -76,6 +77,56 @@ async function functionCallingStreamContent(
   return text;
 }
 
+
+
+
+const axios = require('axios'); // Make sure to install axios if you haven't already
+
+async function callGemini(promptContent, systemContent, previousChat) {
+  try {
+    const messages = [];
+
+    const userPrompt = {
+      role: "user",
+      content: promptContent,
+    };
+    const systemPrompt = {
+      role: "system",
+      content: systemContent,
+    };
+    const assistantPrompt = {
+      role: "assistant",
+      content: previousChat,
+    };
+
+    messages.push(userPrompt);
+    messages.push(systemPrompt);
+    messages.push(assistantPrompt);
+
+    // Adjust the URL and method according to Gemini's API documentation
+    const response = await axios.post('https://api.gemin.ai/v1/chat/completions', {
+      model: "your_gemini_model_here", // Specify the correct model identifier
+      messages: messages,
+    }, {
+      headers: {
+        'Authorization': 'Bearer YOUR_ACCESS_TOKEN_HERE', // Include authentication as needed
+        'Content-Type': 'application/json',
+      }
+    });
+
+    console.log(1);
+    console.log(response.data.choices[0].message.content);
+    return response.data.choices[0].message.content;
+  } catch (error) {
+    console.error("Error:", error);
+    return `An error occurred while processing the request: ${error}`;
+  }
+}
+
+
+
 //generateContent();
 
 module.exports = { callGemini };
+
+
